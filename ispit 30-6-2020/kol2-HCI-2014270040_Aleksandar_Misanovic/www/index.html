@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>HCI - Singidunum</title>
+    <link href="bower_components/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="css/app.css" rel="stylesheet">
+  </head>
+  <body ng-app="myApp" ng-controller="MyCtrl as vm">
+
+    <nav class="navbar navbar-inverse navbar-fixed-top example6">
+      <div class="container">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar6">
+              <span class="sr-only">Toggle navigation</span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+            </button>
+          <a class="navbar-brand text-hide" href="#">Brand Text</a>
+        </div>
+        <div id="navbar6" class="navbar-collapse collapse">
+          <ul class="nav navbar-nav navbar-right">
+            <li><a href="#" ng-click="vm.login()">Login</a></li>
+          </ul>
+
+          <div class="col-sm-3 col-md-3 pull-right">
+              <form class="navbar-form" role="search">
+              <div class="input-group">
+                  <input type="text" class="form-control" placeholder="Pretraga" ng-model="vm.searchText">
+                  <div class="input-group-btn">
+                      <button class="btn btn-default btn-search" type="submit" ng-click="vm.init()"><i class="glyphicon glyphicon-search"></i></button>
+                  </div>
+              </div>
+              </form>
+          </div>
+        </div>
+        <!--/.nav-collapse -->
+      </div>
+      <!--/.container-fluid -->
+    </nav>
+
+    <div uib-alert
+      ng-repeat="alert in alerts" ng-class="'alert-' + (alert.type || 'warning')"
+      dismiss-on-timeout="2000"
+      close="closeAlert($index)">{{alert.msg}}</div>
+
+
+    <div class="container">
+      <nav aria-label="breadcrumb" role="navigation">
+        <ol class="breadcrumb">
+          <li class="breadcrumb-item"><a href="#" ng-click="vm.home()">Home</a></li>
+          <li class="breadcrumb-item" ng-if="vm.kategorija!=null"><a href="#" ng-click="vm.filterKategorije(vm.kategorija)">{{vm.kategorija}}</a></li>
+          <li class="breadcrumb-item" ng-if="vm.proizvod!=null">{{vm.proizvod.naziv}}</li>
+        </ol>
+      </nav>
+
+      <div class="col-lg-3">
+          <div class="list-group">
+              <a ng-repeat="el in vm.listaKategorija"
+                href="#" ng-click="vm.filterKategorije(el)" class="list-group-item">{{el}}</a>
+          </div>
+      </div>
+      <div class="col-lg-9">
+        <div class="row" ng-if="vm.proizvod==null">
+          <div class="col-sm-4" ng-repeat="el in vm.proizvodi.slice(((vm.currentPage-1)*vm.itemsPerPage), ((vm.currentPage)*vm.itemsPerPage))">
+              <img src="{{el.img}}" style="width:256px; height:160px;"><br>
+                
+              <a ng-click="vm.set_favorit(el)" style="cursor:hand;" uib-tooltip="Postavi u omiljene">
+                <i class="glyphicon" ng-class="{'glyphicon-star-empty':el.favorit!=true, 'glyphicon-star':el.favorit==true}"
+                 aria-hidden="true"></i></a>
+
+              <a href="#" ng-click="vm.selektujProizvod(el)">
+                <strong>{{ el.naziv | limitTo: 20 }}{{el.naziv.length > 20 ? '...' : ''}}</strong></a><br>
+              {{el.cena}} din <br>
+              <a href="#" ng-click="vm.filter(el.kategorija)"><small>{{el.kategorija}} </small></a>
+          </div>
+      </div>
+      <div style="text-align:center;" ng-if="vm.proizvod==null">
+          <ul uib-pagination direction-links="true"
+                total-items="vm.totalItems"
+                ng-model="vm.currentPage"
+                max-size="vm.maxSize"
+                class="pagination-sm"
+                boundary-links="true"
+                num-pages="vm.smallnumPages"></ul>
+      </div>
+      <div class="row" ng-if="vm.proizvod!=null">
+        <div class="col-sm-12">
+            <!--img src="{{vm.proizvod.img}}" style="width:512px; height:320px;"><br-->
+            <img src="http://lorempixel.com/512/320/" style="width:512px; height:320px;"><br>
+
+            <a ng-click="vm.set_favorit(el)" style="cursor:hand;" uib-tooltip="Postavi u omiljene">
+              <i class="glyphicon" ng-class="{'glyphicon-star-empty':el.favorit!=true, 'glyphicon-star':el.favorit==true}"
+               aria-hidden="true"></i></a>
+
+            <a href="#" ng-click="vm.selektujProizvod(vm.proizvod)">
+              <strong>{{ el.naziv | limitTo: 20 }}{{el.naziv.length > 20 ? '...' : ''}}</strong></a><br>
+            {{el.cena}} din <br>
+            <a href="#" ng-click="vm.filter(vm.proizvod.kategorija)"><small>{{vm.proizvod.kategorija}} </small></a><br>
+            <input type="text" ng-model="vm.kolicina">
+            <button type="button" class="btn btn-primary btn-outline btn-xs"
+              ng-click="vm.kupi(vm.proizvod)">Kupi</button><br>
+            {{vm.proizvod.opis}}
+        </div>
+      </div>
+    </div>
+  </div>
+  </div>
+    <script src="bower_components/jquery/dist/jquery.min.js"></script>
+    <script src="bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
+    <script src="bower_components/angular/angular.min.js"></script>
+    <script src="bower_components/angular-bootstrap/ui-bootstrap.min.js"></script>
+    <script src="bower_components/angular-bootstrap/ui-bootstrap-tpls.min.js"></script>
+
+    <script src="js/app.js"></script>
+
+    <script type="text/ng-template" id="myModalContent.html">
+        <div class="modal-header">
+          <h3 class="modal-title" id="modal-title" ng-if="$ctrl.stanje == 'Login'">Login</h3>
+          <h3 class="modal-title" id="modal-title" ng-if="$ctrl.stanje == 'Registracija'">Registracija</h3>
+        </div>
+        <div class="modal-body" id="modal-body">
+          <section class="login-form" ng-if="$ctrl.stanje == 'Login'">
+              <form class="form-signin">
+                  <input type="text" placeholder="Korisnicko ime" required
+                    class="form-control input-lg" ng-model="$ctrl.username" />
+                  <input type="password" class="form-control input-lg"
+                    placeholder="Password" required ng-model="$ctrl.password" />
+                  <button class="btn btn-lg btn-primary btn-block" ng-click="$ctrl.login()">Sign in</button>
+                  <div>
+                      <a href="#" ng-click="$ctrl.stanje='Registracija';">Create account</a>
+                  </div>
+              </form>
+          </section>
+          <section class="login-form" ng-if="$ctrl.stanje == 'Registracija'">
+              <form class="form-signin">
+                  <input type="text" placeholder="Korisnicko ime" required
+                    class="form-control input-lg" ng-model="$ctrl.username" />
+                  <input type="password" class="form-control input-lg"
+                    placeholder="Password" required ng-model="$ctrl.password" />
+                  <input type="password" class="form-control input-lg"
+                    placeholder="Confirm password" required ng-model="$ctrl.confirmPassword" />
+                  <button class="btn btn-lg btn-primary btn-block" ng-click="$ctrl.register()">Registracija</button>
+                  <div>
+                      <a href="#" ng-click="$ctrl.stanje='Login';">Sign in</a>
+                  </div>
+              </form>
+          </section>
+        </div>
+        <div class="modal-footer">
+            <button class="btn btn-warning" type="button" ng-click="$ctrl.cancel()">Cancel</button>
+        </div>
+    </script>
+
+  </body>
+</html>

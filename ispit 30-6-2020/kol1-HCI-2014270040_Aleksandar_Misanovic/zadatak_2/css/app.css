@@ -1,0 +1,43 @@
+.banner-information-strip-background {
+    -webkit-box-shadow: 0 0 8px rgba(0,0,0,.6);
+    -ms-box-shadow: 0 0 8px rgba(0,0,0,.6);
+    box-shadow: 0 0 8px rgba(0,0,0,.6);
+    background-color: rgba(6,21,47,.62);
+    min-height: 920px;
+    padding: 20px 10px 15px;
+    position: absolute;
+    height: 100%;
+    width: 260px;
+    bottom: 0;
+    right: 0;
+    top: 0;
+    transition: .5s;
+}
+
+
+.login_form{
+  padding: 10px 10px 10px;
+  position: absolute;
+  width: 300pt;
+  height: 200pt;
+  left: 200pt;
+  top: 100pt;
+}
+
+table {
+  counter-reset: rowNumber;
+}
+
+table {
+    counter-reset: rowNumber;
+}
+
+table tr:not(:first-child) {
+    counter-increment: rowNumber;
+}
+
+table tr td:first-child::before {
+    content: counter(rowNumber);
+    min-width: 1em;
+    margin-right: 0.5em;
+}

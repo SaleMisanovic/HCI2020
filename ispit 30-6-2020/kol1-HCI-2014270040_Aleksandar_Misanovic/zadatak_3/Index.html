@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>HCI - Singidunum kolokvijum 1</title>
+    <link href="bower_components/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="css/app.css" rel="stylesheet">
+  </head>
+  <body ng-app="myApp" ng-controller="Zadatak3Ctrl as vm">
+      <div class="container">
+        <div ng-show="vm.rezultat==1" class="poruka success">Uspesna registracija!</div>
+        <div ng-show="vm.rezultat==2" class="poruka alert">Neuspesna registracija!</div>
+        <form >
+          <div class="form-group row">
+            <label for="Korisnicko ime">Korisnicko ime</label>
+            <input type="text" name="Korisnicko Ime" class="form-control" ng-model="vm.korisnickoIme">
+            <label for="Ime">Ime</label>
+            <input type="text" name="Ime" class="form-control" ng-model="vm.ime">
+            <label for="Prezime">Prezime</label>
+            <input type="text" name="Prezime" class="form-control" ng-model="vm.prezime">
+            <label for="E-mail">E-mail</label>
+            <input type="email" name="E-mail" class="form-control" ng-model="vm.email">
+            <label for="Lozinka">Lozinka</label>
+            <input type="password" name="Lozinka" class="form-control" ng-model="vm.lozinka"
+            ng-minlength="8">
+            <label for="Ponovljena lozinka">Ponovljena lozinka</label>
+            <input type="password" name="Ponovljena lozinka" class="form-control" ng-model="vm.ponovljenaLozinka"
+            ng-minlength="8">
+            <br>
+            <div align ="center">
+              <button class="btn btn-lg btn-primary" ng-click="vm.registracija()">Registracija</button>
+            </div>
+          </div>
+        </form>
+      </div>
+
+
+    <!--  OVDE NAPISATI HTML deo resenja   --->
+
+    <script src="bower_components/jquery/dist/jquery.min.js"></script>
+    <script src="bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
+    <script src="bower_components/angular/angular.min.js"></script>
+    <script src="js/app.js"></script>
+
+    <script>
+
+        // ovde zavrsiti implementaciju kontrolera
+
+    });
+    </script>
+  </body>
+</html>
